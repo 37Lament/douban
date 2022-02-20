@@ -1,15 +1,15 @@
 package model
 
-import "time"//一个评论的结构体
+//一个评论的结构体
 //影评的结构体
 
 type Comment struct {
 	Id          int
-	Score       int
-	Flag 		bool
-	Likes   	int64
-	Txt         string//文本
-	Username    string//用户名
-	CommentTime time.Time//评论时间
-	MovieName string
+	Postid 		int
+	Score       int   `form:"score" json:"score" binding:"required"`
+	Flag 		bool	`form:"flag" json:"flag" binding:"required"`
+	Txt         string	`form:"txt" json:"txt" binding:"required"`//文本
+	Username    string	`form:"username" json:"username" binding:"username"`//用户名
+	CommentTime string	`form:"commenttime" json:"commenttime" binding:"required"`//评论时间
+	MovieName string	`form:"moviename" json:"moviename" binding:"required"`
 }

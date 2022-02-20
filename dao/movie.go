@@ -5,13 +5,14 @@ import (
 )
 
 func InsertMovie(movie model.Movie) error {
-	_, err := dB.Exec("INSERT INTO movie(moviename, director, screenwriter, starring,style,area,language,releasetime,length,imdb,score) "+"values(?, ?, ?, ?,?,?,?,?,?,?,?);", movie.Name,movie.Director,movie.Screenwriter,movie.Starring,movie.Style,movie.Area,movie.Language,movie.ReleaseData,movie.Length,movie.IMDb,movie.Score)
+	str:="INSERT INTO movie(moviename, director, screenwriter, starring,style,area,language,releasetime,length,imdb) "+"values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?);"
+	_, err := dB.Exec(str, movie.Name,movie.Director,movie.Screenwriter,movie.Starring,movie.Style,movie.Area,movie.Language,movie.ReleaseData,movie.Length,movie.IMDb)
 	return err
 }
 
-func QueryMovie(movieName string)([]model.Movie,error) {
+func QueryMovie(movieid int)([]model.Movie,error) {
 	var Movies []model.Movie
-	rows, err := dB.Query("SELECT moviename, director, screenwriter, starring,style,area,language,releasetime,length,imdb,score FROM movie WHERE moviename LIKE ?", movieName)
+	rows, err := dB.Query("SELECT moviename, director, screenwriter, starring,style,area,language,releasetime,length,imdb,score FROM movie WHERE mid LIKE ?", movieid)
 	if err != nil {
 		return nil, err
 	}
@@ -27,5 +28,21 @@ func QueryMovie(movieName string)([]model.Movie,error) {
 	}
 	return Movies, nil
 }
+
+func SelectMoviebyId(id int) (model.Movie, error) {
+	var movie model.Movie
+	rows:= dB.QueryRow("SELECT moviename  FROM movie WHERE mid = ? ", id)
+	if rows.Err() != nil {
+		return movie, rows.Err()
+	}
+
+	err := rows.Scan(&movie.Name)
+	if err != nil {
+		return movie, err
+	}
+
+	return movie, nil
+}
+
 
 

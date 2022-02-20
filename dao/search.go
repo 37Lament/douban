@@ -1,24 +1,58 @@
 package dao
 
-import "douban/model"
+import (
+	"douban/model"
+)
 
-func Searching(data string)([]model.Movie,error) {
+
+type Data1 struct {
+	People []model.People
+	Movie []model.Movie
+}
+
+func Searching(data string)(Data1,error) {
 	var Movies []model.Movie
+	var Peoples []model.People
 	s:="%"+data+"%"
-	rows, err := dB.Query("SELECT moviename, director, screenwriter,starring,style,area,language,releasetime,length,imdb,score FROM movie WHERE (moviename LIKE ?) or (starring LIKE ?) or(director LIKE ?)", s,s,s)
+	str:="SELECT moviename, director, screenwriter,starring,style,area,language,length,score FROM movie WHERE moviename LIKE ?"
+	row, err := dB.Query(str,s)
 	if err != nil {
-		return nil, err
+		return Data1{},err
 	}
-	defer rows.Close()
 
-	for rows.Next() {
+	defer row.Close()
+
+	for row.Next() {
 		var movie model.Movie
-		err := rows.Scan(&movie.Name, &movie.Director, &movie.Screenwriter, &movie.Starring, &movie.Style, &movie.Area, &movie.Language, &movie.ReleaseData, &movie.Length, &movie.IMDb, &movie.Score)
+		err := row.Scan(&movie.Name, &movie.Director, &movie.Screenwriter, &movie.Starring, &movie.Style, &movie.Area, &movie.Language, &movie.Length, &movie.Score)
 		if err != nil {
-			return nil, err
+			return Data1{},err
 		}
 		Movies = append(Movies, movie)
 	}
-	return Movies, nil
+
+
+	str2:="SELECT name , birthdate, job FROM people where name LIKE ?"
+
+	rows,err2 :=dB.Query(str2,s)
+	if err2 != nil {
+		return Data1{},err
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var people1 model.People
+		err = rows.Scan(&people1.Name,&people1.Birthdate,&people1.Job,)
+		if err != nil {
+			return Data1{},err
+		}
+		Peoples = append(Peoples,people1)
+	}
+
+
+	data2:= Data1{
+		Movie: Movies,
+		People: Peoples,
+	}
+	return data2, nil
 }
 

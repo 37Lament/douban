@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"douban/api"
@@ -8,5 +8,4 @@ import (
 func main() {
 	dao.InitDB();
 	api.InitEngine()
-
 }

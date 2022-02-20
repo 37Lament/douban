@@ -2,7 +2,8 @@ package model
 
 //电影结构体
 type Movie struct{
-	Name         string  `form:"moviname" json:"moviname" binding:"required"`         //名字
+	Movieid		string  `form:"movieid" json:"movieid" binding:"required"`//id
+	Name         string  `form:"moviename" json:"moviename" binding:"required"`         //名字
 	Director     string  `form:"director" json:"director" binding:"required"`         //导演
 	Screenwriter string  `form:"screenwriter" json:"screenwriter" binding:"required"` //编剧
 	Starring     string  `form:"starring" json:"starring" binding:"required"`         //主演明星

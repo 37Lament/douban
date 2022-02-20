@@ -9,10 +9,9 @@ var dB *sql.DB
 //连接服务器
 
 func InitDB() {
-	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/yewu?charset=utf8mb4&parseTime=True")
+	db, err := sql.Open("mysql", "root:123456@tcp(localhost:3306)/douban?charset=utf8mb4&parseTime=True")
 	if err != nil {
 		panic(err)
 	}
-
 	dB = db
 }

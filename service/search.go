@@ -2,9 +2,9 @@ package service
 
 import (
 	"douban/dao"
-	"douban/model"
 )
 
-func Searchsth(data string)([]model.Movie,error){
+func Searchsth(data string) ( dao.Data1, error) {
 	return dao.Searching(data)
 }
+

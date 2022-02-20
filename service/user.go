@@ -46,3 +46,12 @@ func Register(user model.User) error {
 	err := dao.InsertUser(user)
 	return err
 }
+
+func SelectU(userid int)([]dao.Miniuser,error){
+	return dao.QueryU(userid)
+}
+
+func ChangeTxt(Txt string,username string) error {
+	err:=dao.UpdateTxt(Txt,username)
+	return err
+}

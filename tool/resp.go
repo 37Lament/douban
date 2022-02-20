@@ -3,9 +3,10 @@ package tool
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-)//处理因写入产生的错误
+)
+//处理因写入产生的错误
 func RespErrorWithDate(ctx *gin.Context, date interface{}) {
-	ctx.JSON(http.StatusOK, gin.H{
+	ctx.JSON(403, gin.H{
 		"info": date,
 	})
 }//服务器内部错误（注意不能将错误展现在服务器页面上，防止sql注入）
