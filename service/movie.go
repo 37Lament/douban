@@ -9,7 +9,7 @@ func CreateMovie(movie model.Movie) error {
 	return dao.InsertMovie(movie)
 }
 
-func SelectMovie(movieid int)([]model.Movie,error){
+func SelectMovie(movieid int)(dao.Page,error){
 	return dao.QueryMovie(movieid)
 }
 

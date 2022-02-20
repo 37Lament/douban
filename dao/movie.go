@@ -10,23 +10,52 @@ func InsertMovie(movie model.Movie) error {
 	return err
 }
 
-func QueryMovie(movieid int)([]model.Movie,error) {
+type Page struct {
+	Movie []model.Movie
+	Commentsid []int
+}
+func QueryMovie(movieid int)(Page,error) {
 	var Movies []model.Movie
-	rows, err := dB.Query("SELECT moviename, director, screenwriter, starring,style,area,language,releasetime,length,imdb,score FROM movie WHERE mid LIKE ?", movieid)
+	var movie model.Movie
+	str:="SELECT moviename, director, screenwriter, starring,style,area,language,releasetime,length,imdb,score FROM movie WHERE mid LIKE ?"
+	rows, err := dB.Query(str, movieid)
 	if err != nil {
-		return nil, err
+		return Page{}, err
 	}
+
 	defer rows.Close()
 
 	for rows.Next() {
-		var movie model.Movie
+
 		err := rows.Scan(&movie.Name, &movie.Director, &movie.Screenwriter, &movie.Starring, &movie.Style, &movie.Area, &movie.Language, &movie.ReleaseData, &movie.Length, &movie.IMDb, &movie.Score)
 		if err != nil {
-			return nil, err
+			return Page{}, err
 		}
 		Movies = append(Movies, movie)
 	}
-	return Movies, nil
+	var idx [] int
+	var comment model.Comment
+	str2:="SELECT id From comment WHERE moviename LIKE ?"
+	row,err:=dB.Query(str2,movie.Name)
+	if err != nil {
+		return Page{}, err
+	}
+
+	defer row.Close()
+
+	for row.Next(){
+		err=row.Scan(&comment.Id)
+		if err != nil {
+			return Page{}, err
+		}
+		idx=append(idx,comment.Id)
+	}
+	PG:=Page{
+		Movie:Movies,
+		Commentsid: idx,
+	}
+
+	return PG, nil
 }
 
 func SelectMoviebyId(id int) (model.Movie, error) {
