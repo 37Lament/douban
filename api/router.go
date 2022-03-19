@@ -1,17 +1,18 @@
 package api
 
-import "github.com/gin-gonic/gin"
+import (
+	"douban/oauth"
+	"github.com/gin-gonic/gin"
+)
 
 func InitEngine() {
 	engine := gin.Default()
 
 	engine.POST("/register", register) //注册
 	engine.POST("/login", login)       //登陆
-	engine.POST("ping",Ping)//检查网络连接
 
 	userGroup := engine.Group("/user")
 	{
-		userGroup.Use(Ping)//检查网络连接
 		//userGroup.Use(auth)//检测登陆状态
 		userGroup.Use(Getauth)
 		userGroup.POST("/password", changePassword) //修改密码
@@ -20,8 +21,6 @@ func InitEngine() {
 	viewGroup:=engine.Group("/view")//游客模式可使用的
 	{
 		viewGroup.GET("/homepage",Home)
-		viewGroup.Use(Ping)//检查网络连接
-		viewGroup.Use(point)
 		viewGroup.POST("/search",Search)
 		viewGroup.POST("/")
 		viewGroup.GET("/movie/:id",showmovie)
@@ -31,7 +30,6 @@ func InitEngine() {
 	}
 	commentGroup:=engine.Group("/comment")
 	{
-		commentGroup.Use(Ping)//检查网络连接
 		commentGroup.Use(Getauth)
 		commentGroup.POST("/movie/:id", addComment)
 		commentGroup.POST("/c/:id",addlevelComment)
@@ -39,12 +37,16 @@ func InitEngine() {
 	}
 	adminGroup:=engine.Group("/admin")
 	{
-		adminGroup.Use(Ping)
 		adminGroup.Use(Getauth)
 		adminGroup.Use(Admin)
 		adminGroup.POST("/test")
 		adminGroup.POST("/cmovie",CreateMovie)
 		adminGroup.POST("/cpeople",Createpeople)
+	}
+	tokenGroup:=engine.Group("/token")
+	{
+
+		tokenGroup.GET("/",oauth.Oauth)
 	}
 
 	//adGroup:=engine.Group("ad")//广告，还没做

@@ -6,7 +6,7 @@ import (
 )
 //处理因写入产生的错误
 func RespErrorWithDate(ctx *gin.Context, date interface{}) {
-	ctx.JSON(403, gin.H{
+	ctx.JSON(500, gin.H{
 		"info": date,
 	})
 }//服务器内部错误（注意不能将错误展现在服务器页面上，防止sql注入）
@@ -31,6 +31,10 @@ func RespSuccessfulWithDate(ctx *gin.Context, date interface{}) {
 	ctx.JSON(http.StatusOK, gin.H{
 		"info": "成功",
 		"date": date,
+	})
+}
+func Resppoint(ctx *gin.Context)  {
+	ctx.JSON(307, gin.H{
 	})
 }
 

@@ -25,9 +25,7 @@ func Admin(ctx *gin.Context) {
 
 
 //重定向
-func point(ctx*gin.Context) {
-	ctx.Redirect(http.StatusMovedPermanently, "http://www.douban/view.com")
-}
+
 
 //检查是否宕机
 func Ping(ctx *gin.Context)  {

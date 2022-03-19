@@ -63,8 +63,6 @@ func login(ctx *gin.Context) {
 		tool.RespErrorWithDate(ctx, "密码错误")
 		return
 	}
-	ctx.SetCookie("username", username, 600, "/", "", false, false)
-
 	tool.RespSuccessfulWithDate(ctx,CreateToken(username))
 }
 
