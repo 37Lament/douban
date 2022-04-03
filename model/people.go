@@ -1,12 +1,13 @@
 package model
 
+import "github.com/jinzhu/gorm"
 
 type People struct {
-	Id int
-	Name string		`form:"name" json:"name" binding:"required"`
-	Birthdate string `form:"birthdate" json:"birthdate" binding:"required"`
-	Birthplace string  `form:"birthplace" json:"birthplace" binding:"required"`
-	Job string			`form:"job" json:"job" binding:"required"`
-	IMDb string			`form:"IMDb" json:"IMDb" binding:"required"`
+	gorm.Model
+	Name string		`gorm:"type:varchar(30)"`
+	Birthdate string `gorm:"type:varchar(120)"`
+	Birthplace string  `gorm:"type:varchar(120)"`
+	Job string			`gorm:"type:varchar(120)"`
+	IMDb string			`gorm:"type:varchar(120)"`
 
 }

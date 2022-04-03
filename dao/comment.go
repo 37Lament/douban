@@ -75,17 +75,6 @@ func ShowComment(id int)(Bigcomment, error)  {
 }
 
 func DeletC(id int)error  {
-	sqlStr := "delete from comment where id = ?"
-	ret, err := dB.Exec(sqlStr, id)
-	if err != nil {
-		fmt.Printf("delete failed, err:%v\n", err)
-		return err
-	}
-	n, err := ret.RowsAffected() // 操作影响的行数
-	if err != nil {
-		fmt.Printf("get RowsAffected failed, err:%v\n", err)
-		return err
-	}
-	fmt.Printf("delete success, affected rows:%d\n", n)
-	return nil
+	comment:=model.Comment{,1,,,,,,}
+	dB.Delete(&comment)
 }

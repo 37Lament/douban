@@ -1,17 +1,23 @@
 package model
 
+import (
+	"database/sql"
+	"github.com/jinzhu/gorm"
+)
+
 //电影结构体
 type Movie struct{
-	Movieid		string  `form:"movieid" json:"movieid" binding:"required"`//id
-	Name         string  `form:"moviename" json:"moviename" binding:"required"`         //名字
-	Director     string  `form:"director" json:"director" binding:"required"`         //导演
-	Screenwriter string  `form:"screenwriter" json:"screenwriter" binding:"required"` //编剧
-	Starring     string  `form:"starring" json:"starring" binding:"required"`         //主演明星
-	Style        string  `form:"style" json:"style" binding:"required"`               //风格
-	Area         string  `form:"area" json:"area" binding:"required"`                 //地区
-	Language     string  `form:"language" json:"language" binding:"required"`         //语言
-	ReleaseData  string  `form:"releasedata" json:"releasedata" binding:"required"`   //发行日期
-	Length       int     `form:"length" json:"length" binding:"required"`             //时长
-	IMDb         string  `form:"imdb" json:"imdb" binding:"required"`                 //IMDb码
-	Score        float32 `form:"score" json:"score" binding:"required"`               //分数
+	gorm.Model
+	Movieid		sql.NullInt64  //id
+	Name         string  `gorm:"type:varchar(120)"`         //名字
+	Director     string  `gorm:"type:varchar(120)"`         //导演
+	Screenwriter string  `gorm:"type:varchar(120)"` //编剧
+	Starring     string  `gorm:"type:varchar(120)"`         //主演明星
+	Style        string `gorm:"type:varchar(120)"`              //风格
+	Area         string  `gorm:"type:varchar(120)"`                 //地区
+	Language     string  `gorm:"type:varchar(120)"`         //语言
+	ReleaseData  string  `gorm:"type:varchar(120)"`   //发行日期
+	Length       int                 //时长
+	IMDb         string  `gorm:"type:varchar(120)"`                 //IMDb码
+	Score        float32                //分数
 }

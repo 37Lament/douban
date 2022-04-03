@@ -1,9 +1,14 @@
 package model
 
+import (
+	"database/sql"
+	"github.com/jinzhu/gorm"
+)
+
 type User struct {
-	Id       int			`form:"id" json:"id" binding:"required"`
-	Username string			`form:"username" json:"username" binding:"required"`
-	Password string
-	Time string			`form:"time" json:"time" binding:"required"`
-	Txt  string				`form:"txt" json:"txt" binding:"required"`
+	gorm.Model
+	Id       sql.NullInt64
+	Username string			`gorm:"type:varchar(30);unique_index"`
+	Password string			`gorm:"type:varchar(120)"`
+	Txt  string				`gorm:"type:varchar(120)"`
 }
